@@ -6,10 +6,10 @@ import numpy as np
 import cv2
 
 # Dossier d'entrée contenant les images GeoTIFF
-dossier_entree = r"/Users/anton/Desktop/IA/challenge/dataset/train/images"
+dossier_entree = r"/Users/anton/Desktop/IA/challenge/dataset/test/images"
 
 # Dossier de sortie où vous souhaitez enregistrer les images JPEG
-dossier_sortie =  r"/Users/anton/Desktop/IA/challenge/dataset/train1/images"
+dossier_sortie =  r"/Users/anton/Desktop/IA/challenge/dataset/test1/images"
 
 # Créer le dossier de sortie s'il n'existe pas
 if not os.path.exists(dossier_sortie):
