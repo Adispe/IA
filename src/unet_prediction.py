@@ -1,3 +1,4 @@
+import requests
 import tensorflow as tf
 import numpy as np
 from tensorflow.keras.models import load_model
@@ -9,7 +10,8 @@ tf.keras.backend.clear_session()
 CLASSES = ['no_data', 'clouds', 'artificial', 'cultivated', 'broadleaf', 'coniferous', 'herbaceous', 'natural', 'snow', 'water']
 
 image_path = r"/Users/anton/Desktop/challenge_small/dataset/test1/images/10087.jpg"
-model_path = r"/Users/anton/Desktop/UNET_Skyscan.h5"
+
+model_path = r"/Users/anton/Desktop/SKYSCAN_dcdev/ia/src/UNET_Skyscan.h5"
 
 model = load_model(model_path)
 
@@ -18,9 +20,11 @@ image_array = img_to_array(image)
 image_array = np.expand_dims(image_array, axis=0)
 
 predictions = model.predict(image_array)
+
+# response = requests.post(nest_endpoint, json={"predictions": predictions.tolist(), "image_path": image_path})
+
 predicted_class = np.argmax(predictions, axis=-1)[0]
 
-# Create a color map for visualization
 colors = np.array([
     [0, 0, 0],  # 'no_data'
     [128, 128, 128],  # 'clouds'
@@ -34,24 +38,28 @@ colors = np.array([
     [255, 255, 255],  # 'water'
 ], dtype=np.uint8)
 
-# Map the predicted class to colors
 colored_mask = colors[predicted_class]
 
-# Display the original image
-plt.subplot(1, 2, 1)
+print(colored_mask)
+
+plt.subplot(2, 3, 1)
 plt.imshow(image)
-plt.title('Original Image')
 
-# Display the predicted mask with colored legend
-plt.subplot(1, 2, 2)
+plt.subplot(2, 3, 1)
+plt.imshow(colored_mask, alpha=0.3)
+
+plt.subplot(2, 3, 2)
+plt.imshow(image)
+plt.title('Original image')
+
+plt.subplot(2, 3, 3)
 plt.imshow(colored_mask)
-plt.title('Predicted Mask with Legend')
+plt.title('Predicted masks')
 
-# Create a legend for the classes
 legend_labels = [f"{i}: {CLASSES[i]}" for i in range(len(CLASSES))]
 legend_colors = [colors[i] / 255.0 for i in range(len(CLASSES))]
 legend_patches = [plt.Line2D([0], [0], marker='o', color='w', label=label, markerfacecolor=color, markersize=10) for label, color in zip(legend_labels, legend_colors)]
-plt.legend(handles=legend_patches, bbox_to_anchor=(1.05, 1), loc='upper left', title='Legend')
+plt.legend(handles=legend_patches, bbox_to_anchor=(0.5, -0.1), loc='upper center', title='Legend')
+plt.title('legend')
 
-# Show the plot
 plt.show()
