@@ -1,3 +1,4 @@
+import base64
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
 import io
@@ -51,4 +52,9 @@ async def predict(file: UploadFile = File(...)):
 
     _, img_encoded = cv2.imencode('.jpg', output_img)
 
-    return StreamingResponse(io.BytesIO(img_encoded.tobytes()), media_type="image/jpeg")
+    # Convert binary image data to base64
+    img_base64 = base64.b64encode(img_encoded)
+    # Convert base64 bytes to a string
+    img_base64_str = img_base64.decode('utf-8')
+
+    return {"image_data": img_base64_str}
