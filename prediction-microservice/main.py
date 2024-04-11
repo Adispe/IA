@@ -92,17 +92,18 @@ async def predict(file: UploadFile = File(...)):
 
     class_areas = {key: int(value) for key, value in class_areas.items()}
 
-    class_colors = [
-        ("no_data", [0, 0, 0]),
-        ("clouds", [128, 128, 128]),
-        ("artificial", [0, 0, 255]),
-        ("cultivated", [0, 255, 0]),
-        ("broadleaf", [255, 0, 0]),
-        ("coniferous", [0, 255, 255]),
-        ("herbaceous", [0, 165, 255]),
-        ("natural", [255, 255, 0]),
-        ("snow", [255, 255, 255]),
-        ("water", [255, 255, 255])
-    ]
+    class_colors = {
+    "no_data": "[0, 0, 0]",
+    "clouds": "[128, 128, 128]",
+    "artificial": "[255, 0, 0]",
+    "cultivated": "[0, 255, 0]",
+    "broadleaf": "[255, 0, 0]",
+    "coniferous": "[0, 255, 255]",
+    "herbaceous": "[255, 165, 0]",
+    "natural": "[0, 255, 255]",
+    "snow": "[255, 255, 255]",
+    "water": "[255, 255, 255]"
+}
+
 
     return {"image_data": img_base64_str, "class_areas":class_areas, "class_colors": class_colors}
