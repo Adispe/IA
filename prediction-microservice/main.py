@@ -97,7 +97,7 @@ async def predict(file: UploadFile = File(...)):
     "clouds": "[128, 128, 128]",
     "artificial": "[255, 0, 0]",
     "cultivated": "[0, 255, 0]",
-    "broadleaf": "[255, 0, 0]",
+    "broadleaf": "[0, 0, 255]",
     "coniferous": "[0, 255, 255]",
     "herbaceous": "[255, 165, 0]",
     "natural": "[0, 255, 255]",
